@@ -1,79 +1,49 @@
 #5.1
-london_co = {
-    "r1": {
+import sys
+from importlib import reload
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def test_task_r2(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе r2
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "r2")
+    import task_5_1
+
+    out, err = capsys.readouterr()
+    r2_dict = {
         "location": "21 New Globe Walk",
         "vendor": "Cisco",
         "model": "4451",
         "ios": "15.4",
-        "ip": "10.255.0.1"
-    },
-    "r2": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.2"
-    },
-    "sw1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "3850",
-        "ios": "3.6.XE",
-        "ip": "10.255.0.101",
-        "vlans": "10,20,30",
-        "routing": True
+        "ip": "10.255.0.2",
     }
-}
 
-device = input("Введите имя устройства: ")
-print(london_co[device])
-#5.1a
-london_co = {
-    "r1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.1",
-    },
-    "r2": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.2",
-    },
-    "sw1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "3850",
-        "ios": "3.6.XE",
-        "ip": "10.255.0.101",
-        "vlans": "10,20,30",
-        "routing": True,
-    },
-}
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        str(r2_dict) in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
 
-device = input("Введите имя устройства: ")
-parameter = input("Введите имя параметра: ")
-print(london_co[device][parameter])
-#5.1b
-london_co = {
-    "r1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.1",
-    },
-    "r2": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.2",
-    },
-    "sw1": {
+
+def test_task_sw1(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе sw1
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "sw1")
+    if sys.modules.get("task_5_1"):
+        reload(sys.modules["task_5_1"])
+    import task_5_1
+
+    out, err = capsys.readouterr()
+    sw1_dict = {
         "location": "21 New Globe Walk",
         "vendor": "Cisco",
         "model": "3850",
@@ -81,191 +51,702 @@ london_co = {
         "ip": "10.255.0.101",
         "vlans": "10,20,30",
         "routing": True,
-    },
-}
+    }
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        str(sw1_dict) in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+    #5.1a
+    import sys
+from functools import wraps
+from importlib import reload
 
-device = input("Введите имя устройства: ")
-parameters = ",".join(london_co[device].keys())
-parameter = input(f"Введите имя параметра ({parameters}): ")
-print(london_co[device][parameter])
-#5.1c
-london_co = {
-    "r1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.1",
-    },
-    "r2": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.2",
-    },
-    "sw1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "3850",
-        "ios": "3.6.XE",
-        "ip": "10.255.0.101",
-        "vlans": "10,20,30",
-        "routing": True,
-    },
-}
+sys.path.append("..")
 
-device = input("Введите имя устройства: ")
-parameters = ",".join(london_co[device].keys())
-parameter = input(f"Введите имя параметра ({parameters}): ")
-print(london_co[device].get(parameter, "Такого параметра нет"))
+from pyneng_common_functions import check_pytest
 
-#5.1d
-london_co = {
-    "r1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.1",
-    },
-    "r2": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "4451",
-        "ios": "15.4",
-        "ip": "10.255.0.2",
-    },
-    "sw1": {
-        "location": "21 New Globe Walk",
-        "vendor": "Cisco",
-        "model": "3850",
-        "ios": "3.6.XE",
-        "ip": "10.255.0.101",
-        "vlans": "10,20,30",
-        "routing": True,
-    },
-}
-
-device = input("Введите имя устройства: ")
-parameters = ",".join(london_co[device].keys())
-parameter = input(f"Введите имя параметра ({parameters}): ")
-print(london_co[device].get(parameter.lower(), "Такого параметра нет"))
-
-#5.2
-net = input ("Введите IP-сеть в формате: 10.1.1.0/24: ")
-
-ip, mask = net.split("/")
-ip = ip.split(".")
-mask = int(mask)
-print(ip)
-bin_mask = "1" * mask + "0" * (32-mask)
-print(bin_mask)
-ip_template = """
-Network:
-{0:<10}{1:<10}{2:<10}{3:<10}
-{0:08b}  {1:08b}  {2:08b}  {3:08b}
-"""
-oct1, oct2, oct3, oct4 = [int(bin_mask[0:8], 2), int(bin_mask[8:16], 2), int(bin_mask[16:24], 2), int(bin_mask[24:32], 2)]
-
-mask_template = """
-Mask:
-/{0}
-{1:<10}{2:<10}{3:<10}{4:<10}
-{1:08b}  {2:08b}  {3:08b}  {4:08b}
-"""
-
-print(ip_template.format(int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3])))
-print(mask_template.format(mask, oct1, oct2, oct3, oct4))
-
-#5.2a
-from ipaddress import ip_network
+check_pytest(__loader__, __file__)
 
 
-network = input ("Введите IP-сеть в формате: 10.1.1.0/24: ")
+def count_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        __tracebackhide__ = True
+        wrapper.total_calls += 1
+        result = func(*args, **kwargs)
+        return result
 
-ip, mask = network.split("/")
-ip = ip.split(".")
-mask = int(mask)
-
-ip_bin = "{0:08b}{1:08b}{2:08b}{3:08b}".format(int(ip[0]), int(ip[1]), int(ip[2]), int(ip[3]))
-print(ip_bin, "\n")
-
-ip_network = ip_bin[:mask] + "0" * (32-mask)
-print(ip_network, "\n")
-
-bin_mask = "1" * mask + "0" * (32-mask)
-print(bin_mask, "\n")
-
-ip_template = """
-Network:
-{0:<10}{1:<10}{2:<10}{3:<10}
-{0:08b}  {1:08b}  {2:08b}  {3:08b}
-"""
-oct1, oct2, oct3, oct4 = [int(bin_mask[0:8], 2), int(bin_mask[8:16], 2), int(bin_mask[16:24], 2), int(bin_mask[24:32], 2)]
-
-mask_template = """
-Mask:
-/{0}
-{1:<10}{2:<10}{3:<10}{4:<10}
-{1:08b}  {2:08b}  {3:08b}  {4:08b}
-"""
-
-print(ip_template.format(int(ip_network[0:8], 2), int(ip_network[8:16], 2), int(ip_network[16:24], 2), int(ip_network[24:32], 2)))
-print(mask_template.format(mask, oct1, oct2, oct3, oct4))
-
-#5.3
-from re import template
+    wrapper.total_calls = 0
+    return wrapper
 
 
-access_template = [
-    "switchport mode access",
-    "switchport access vlan {}",
-    "switchport nonegotiate",
-    "spanning-tree portfast",
-    "spanning-tree bpduguard enable",
-]
+@count_calls
+def monkey_input_r2(prompt):
+    __tracebackhide__ = True
+    if monkey_input_r2.total_calls == 1:
+        return "r2"
+    elif monkey_input_r2.total_calls == 2:
+        return "ip"
 
-trunk_template = [
-    "switchport trunk encapsulation dot1q",
-    "switchport mode trunk",
-    "switchport trunk allowed vlan {}",
-]
 
-template = {'access': access_template, 
-'trunk':trunk_template }
+@count_calls
+def monkey_input_sw1(prompt):
+    __tracebackhide__ = True
+    if monkey_input_sw1.total_calls == 1:
+        return "sw1"
+    elif monkey_input_sw1.total_calls == 2:
+        return "ios"
 
-mode = input("Введите режим работы интерфейса (access/trunk): ")
-type_and_number = input("Введите тип и номер интерфейса: ")
-vlans = input("Введите номер влан(ов): ")
 
-print("interface {type_and_number}".format(type_and_number = type_and_number))
-print("\n".join(template[mode]).format(vlans))
+def test_task_r2(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе r2
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_r2)
+    import task_5_1a
 
-#5.3a
-access_template = [
-    "switchport mode access",
-    "switchport access vlan {}",
-    "switchport nonegotiate",
-    "spanning-tree portfast",
-    "spanning-tree bpduguard enable",
-]
+    out, err = capsys.readouterr()
+    correct_stdout = "10.255.0.2"
 
-trunk_template = [
-    "switchport trunk encapsulation dot1q",
-    "switchport mode trunk",
-    "switchport trunk allowed vlan {}",
-]
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
 
-template = {'access': access_template, 
-'trunk':trunk_template }
 
-template_question = {'access': "Введите номер VLAN: ", 
-'trunk':"Введите разрешенные VLANы: "}
+def test_task_sw1(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе sw1
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_sw1)
+    if sys.modules.get("task_5_1a"):
+        reload(sys.modules["task_5_1a"])
+    import task_5_1a
 
-mode = input("Введите режим работы интерфейса (access/trunk): ")
-type_and_number = input("Введите тип и номер интерфейса: ")
-vlans = input(template_question[mode])
+    out, err = capsys.readouterr()
+    correct_stdout = "3.6.XE"
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+    #5.1b
+    
+   import re
+import sys
+from functools import wraps
 
-print("interface {type_and_number}".format(type_and_number = type_and_number))
-print("\n".join(template[mode]).format(vlans))
+import pytest
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def count_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        __tracebackhide__ = True
+        wrapper.total_calls += 1
+        result = func(*args, **kwargs)
+        return result
+
+    wrapper.total_calls = 0
+    return wrapper
+
+
+@count_calls
+def monkey_input_r2(prompt):
+    __tracebackhide__ = True
+    if monkey_input_r2.total_calls == 1:
+        return "r2"
+    elif monkey_input_r2.total_calls == 2:
+        # при запросе параметры должны указываться доступные значения для
+        # устройства. Для r2: "location, vendor, model, ios, ip"
+        if re.search(r"location.+vendor.+model.+ios.+ip", prompt):
+            return "ip"
+        else:
+            pytest.fail(
+                "В запросе параметра не указаны доступные значения для устройства. "
+                "Для r2 это такие значения "
+                "(location, vendor, model, ios, ip)"
+            )
+
+
+@count_calls
+def monkey_input_sw1(prompt):
+    __tracebackhide__ = True
+    if monkey_input_sw1.total_calls == 1:
+        return "sw1"
+    elif monkey_input_sw1.total_calls == 2:
+        if re.search(r"location.+vendor.+model.+ios.+ip.+vlans.+routing", prompt):
+            return "ios"
+        else:
+            pytest.fail(
+                "В запросе параметра не указаны доступные значения для устройства. "
+                "Для sw1 это такие значения "
+                "(location, vendor, model, ios, ip, vlans, routing)"
+            )
+
+
+def test_task_r2(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе r2
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_r2)
+    import task_5_1b
+
+    out, err = capsys.readouterr()
+    correct_stdout = "10.255.0.2"
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+
+
+def test_task_sw1(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе sw1
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_sw1)
+    if sys.modules.get("task_5_1b"):
+        del sys.modules["task_5_1b"]
+    import task_5_1b
+
+    out, err = capsys.readouterr()
+    correct_stdout = "3.6.XE"
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+    #5.1c
+    import sys
+from functools import wraps
+
+import pytest
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def count_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        __tracebackhide__ = True
+        wrapper.total_calls += 1
+        result = func(*args, **kwargs)
+        return result
+
+    wrapper.total_calls = 0
+    return wrapper
+
+
+@count_calls
+def monkey_input_r2(prompt):
+    __tracebackhide__ = True
+    if monkey_input_r2.total_calls == 1:
+        return "r2"
+    elif monkey_input_r2.total_calls == 2:
+        return "ip"
+
+
+@count_calls
+def monkey_input_sw1(prompt):
+    __tracebackhide__ = True
+    if monkey_input_sw1.total_calls == 1:
+        return "sw1"
+    elif monkey_input_sw1.total_calls == 2:
+        return "произвольная строка"
+
+
+def test_task_r2_correct_param(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе r2
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_r2)
+    import task_5_1c
+
+    out, err = capsys.readouterr()
+    correct_stdout = "10.255.0.2"
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+
+
+def test_task_sw1_wrong_param(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе sw1
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_sw1)
+    if sys.modules.get("task_5_1c"):
+        del sys.modules["task_5_1c"]
+    try:
+        import task_5_1c
+    except KeyError:
+        pytest.fail(
+            "В этом задании должна обрабатываться ситуация, "
+            "когда параметр указан неправильный. Не должна возникать ошибка KeyError"
+        )
+
+    out, err = capsys.readouterr()
+    correct_stdout = "параметра нет"
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+    #5.1d
+    import sys
+from functools import wraps
+from importlib import reload
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def count_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        __tracebackhide__ = True
+        wrapper.total_calls += 1
+        result = func(*args, **kwargs)
+        return result
+
+    wrapper.total_calls = 0
+    return wrapper
+
+
+@count_calls
+def monkey_input_r2(prompt):
+    __tracebackhide__ = True
+    if monkey_input_r2.total_calls == 1:
+        return "r2"
+    elif monkey_input_r2.total_calls == 2:
+        return "ip"
+
+
+@count_calls
+def monkey_input_sw1(prompt):
+    __tracebackhide__ = True
+    if monkey_input_sw1.total_calls == 1:
+        return "sw1"
+    elif monkey_input_sw1.total_calls == 2:
+        return "IOS"
+
+
+def test_task_r2_ip(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе r2
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_r2)
+    import task_5_1d
+
+    out, err = capsys.readouterr()
+    correct_stdout = "10.255.0.2"
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+
+
+def test_task_sw1_IOS(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе sw1
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_sw1)
+    if sys.modules.get("task_5_1d"):
+        reload(sys.modules["task_5_1d"])
+    import task_5_1d
+
+    out, err = capsys.readouterr()
+    correct_stdout = "3.6.XE"
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout in out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+    #5.2
+    import sys
+from importlib import reload
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest, unified_columns_output
+
+check_pytest(__loader__, __file__)
+
+
+def test_task_10_5_5_0_24(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе 10.5.5.0/24
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "10.5.5.0/24")
+    import task_5_2
+
+    out, err = capsys.readouterr()
+    stdout = unified_columns_output(out.strip())
+    correct_stdout = unified_columns_output(
+        "Network:\n"
+        "10        5         5         0\n"
+        "00001010  00000101  00000101  00000000\n\n"
+        "Mask:\n"
+        "/24\n"
+        "255       255       255       0\n"
+        "11111111  11111111  11111111  00000000"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == stdout, "Выведено неправильное значение"
+
+
+def test_task_10_1_1_192_28(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе 10.1.1.192/28
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "10.1.1.192/28")
+    if sys.modules.get("task_5_2"):
+        reload(sys.modules["task_5_2"])
+    import task_5_2
+
+    out, err = capsys.readouterr()
+    stdout = unified_columns_output(out.strip())
+    correct_stdout = unified_columns_output(
+        "Network:\n"
+        "10        1         1         192\n"
+        "00001010  00000001  00000001  11000000\n\n"
+        "Mask:\n"
+        "/28\n"
+        "255       255       255       240\n"
+        "11111111  11111111  11111111  11110000"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == stdout, "Выведено неправильное значение"
+    
+    #5.2a
+    import sys
+from importlib import reload
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest, unified_columns_output
+
+check_pytest(__loader__, __file__)
+
+
+def test_task_10_5_5_1_24(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе 10.5.5.1/24
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "10.5.5.1/24")
+    import task_5_2a
+
+    out, err = capsys.readouterr()
+    stdout = unified_columns_output(out.strip())
+    correct_stdout = unified_columns_output(
+        "Network:\n"
+        "10        5         5         0\n"
+        "00001010  00000101  00000101  00000000\n\n"
+        "Mask:\n"
+        "/24\n"
+        "255       255       255       0\n"
+        "11111111  11111111  11111111  00000000"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == stdout, "Выведено неправильное значение"
+
+
+def test_task_10_1_1_193_28(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе 10.1.1.193/28
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "10.1.1.193/28")
+    if sys.modules.get("task_5_2a"):
+        reload(sys.modules["task_5_2a"])
+    import task_5_2a
+
+    out, err = capsys.readouterr()
+    stdout = unified_columns_output(out.strip())
+    correct_stdout = unified_columns_output(
+        "Network:\n"
+        "10        1         1         192\n"
+        "00001010  00000001  00000001  11000000\n\n"
+        "Mask:\n"
+        "/28\n"
+        "255       255       255       240\n"
+        "11111111  11111111  11111111  11110000"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == stdout, "Выведено неправильное значение"
+
+
+def test_task_172_16_100_237_29(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе 172.16.100.237/29
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: "172.16.100.237/29")
+    if sys.modules.get("task_5_2a"):
+        reload(sys.modules["task_5_2a"])
+    import task_5_2a
+
+    out, err = capsys.readouterr()
+    stdout = unified_columns_output(out.strip())
+    correct_stdout = unified_columns_output(
+        "Network:\n"
+        "172       16        100       232\n"
+        "10101100  00010000  01100100  11101000\n\n"
+        "Mask:\n"
+        "/29\n"
+        "255       255       255       248\n"
+        "11111111  11111111  11111111  11111000"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == stdout, "Выведено неправильное значение"
+    
+    #5.3
+    import sys
+from functools import wraps
+from importlib import reload
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def count_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        __tracebackhide__ = True
+        wrapper.total_calls += 1
+        result = func(*args, **kwargs)
+        return result
+
+    wrapper.total_calls = 0
+    return wrapper
+
+
+@count_calls
+def monkey_input_access(prompt):
+    __tracebackhide__ = True
+    if monkey_input_access.total_calls == 1:
+        return "access"
+    elif monkey_input_access.total_calls == 2:
+        return "Gi0/3"
+    elif monkey_input_access.total_calls == 3:
+        return "55"
+
+
+@count_calls
+def monkey_input_trunk(prompt):
+    __tracebackhide__ = True
+    if monkey_input_trunk.total_calls == 1:
+        return "trunk"
+    elif monkey_input_trunk.total_calls == 2:
+        return "Gi0/2"
+    elif monkey_input_trunk.total_calls == 3:
+        return "10,11,12"
+
+
+def test_task_access(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе access
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_access)
+    import task_5_3
+
+    out, err = capsys.readouterr()
+    correct_stdout = (
+        "interface Gi0/3\n"
+        "switchport mode access\n"
+        "switchport access vlan 55\n"
+        "switchport nonegotiate\n"
+        "spanning-tree portfast\n"
+        "spanning-tree bpduguard enable"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout == out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+
+
+def test_task_trunk(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе trunk
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_trunk)
+    if sys.modules.get("task_5_3"):
+        reload(sys.modules["task_5_3"])
+    import task_5_3
+
+    out, err = capsys.readouterr()
+    correct_stdout = (
+        "interface Gi0/2\n"
+        "switchport trunk encapsulation dot1q\n"
+        "switchport mode trunk\n"
+        "switchport trunk allowed vlan 10,11,12"
+    )
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout == out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+    #5.3a
+    import sys
+from functools import wraps
+from importlib import reload
+
+import pytest
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def count_calls(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        __tracebackhide__ = True
+        wrapper.total_calls += 1
+        result = func(*args, **kwargs)
+        return result
+
+    wrapper.total_calls = 0
+    return wrapper
+
+
+@count_calls
+def monkey_input_access(prompt):
+    __tracebackhide__ = True
+    if monkey_input_access.total_calls == 1:
+        return "access"
+    elif monkey_input_access.total_calls == 2:
+        return "Gi0/3"
+    elif monkey_input_access.total_calls == 3:
+        if "номер vlan" in prompt.lower():
+            return "55"
+        else:
+            pytest.fail(
+                "Для access портов запрос вланов должен быть таким: "
+                "Введите номер VLAN:"
+            )
+
+
+@count_calls
+def monkey_input_trunk(prompt):
+    __tracebackhide__ = True
+    if monkey_input_trunk.total_calls == 1:
+        return "trunk"
+    elif monkey_input_trunk.total_calls == 2:
+        return "Gi0/2"
+    elif monkey_input_trunk.total_calls == 3:
+        if "разрешенные vlanы" in prompt.lower():
+            return "10,11,12"
+        else:
+            pytest.fail(
+                "Для trunk портов запрос вланов должен быть таким: "
+                "Введите разрешенные VLANы:"
+            )
+
+
+def test_task_access(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе access
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_access)
+    import task_5_3a
+
+    out, err = capsys.readouterr()
+    correct_stdout = (
+        "interface Gi0/3\n"
+        "switchport mode access\n"
+        "switchport access vlan 55\n"
+        "switchport nonegotiate\n"
+        "spanning-tree portfast\n"
+        "spanning-tree bpduguard enable"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout == out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+
+
+def test_task_trunk(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе trunk
+    """
+    monkeypatch.setattr("builtins.input", monkey_input_trunk)
+    if sys.modules.get("task_5_3a"):
+        reload(sys.modules["task_5_3a"])
+    import task_5_3a
+
+    out, err = capsys.readouterr()
+    correct_stdout = (
+        "interface Gi0/2\n"
+        "switchport trunk encapsulation dot1q\n"
+        "switchport mode trunk\n"
+        "switchport trunk allowed vlan 10,11,12"
+    )
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout == out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
