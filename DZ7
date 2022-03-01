@@ -1,0 +1,350 @@
+#7.1
+import sys
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest, unified_columns_output
+
+check_pytest(__loader__, __file__)
+
+
+def test_task(capsys):
+    """
+    Проверка работы задания при вводе access
+    """
+    import task_7_1
+
+    out, err = capsys.readouterr()
+    correct_stdout = unified_columns_output(
+        "Prefix                    10.0.24.0/24\n"
+        "AD/Metric                 110/41\n"
+        "Next-Hop                  10.0.13.3\n"
+        "Last update               3d18h\n"
+        "Outbound Interface        FastEthernet0/0\n"
+        "Prefix                    10.0.28.0/24\n"
+        "AD/Metric                 110/31\n"
+        "Next-Hop                  10.0.13.3\n"
+        "Last update               3d20h\n"
+        "Outbound Interface        FastEthernet0/0\n"
+        "Prefix                    10.0.37.0/24\n"
+        "AD/Metric                 110/11\n"
+        "Next-Hop                  10.0.13.3\n"
+        "Last update               3d20h\n"
+        "Outbound Interface        FastEthernet0/0\n"
+        "Prefix                    10.0.41.0/24\n"
+        "AD/Metric                 110/51\n"
+        "Next-Hop                  10.0.13.3\n"
+        "Last update               3d20h\n"
+        "Outbound Interface        FastEthernet0/0\n"
+        "Prefix                    10.0.78.0/24\n"
+        "AD/Metric                 110/21\n"
+        "Next-Hop                  10.0.13.3\n"
+        "Last update               3d20h\n"
+        "Outbound Interface        FastEthernet0/0\n"
+        "Prefix                    10.0.79.0/24\n"
+        "AD/Metric                 110/20\n"
+        "Next-Hop                  10.0.19.9\n"
+        "Last update               4d02h\n"
+        "Outbound Interface        FastEthernet0/2\n"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == unified_columns_output(
+        out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+#7.2
+import re
+import sys
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def test_task(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе access
+    """
+    monkeypatch.setattr("sys.argv", ["task_7_2.py", "config_sw1.txt"])
+    import task_7_2
+
+    out, err = capsys.readouterr()
+    correct_stdout = (
+        "Current configuration : 2033 bytes\n"
+        "version 15.0\n"
+        "service timestamps debug datetime msec\n"
+        "service timestamps log datetime msec\n"
+        "no service password-encryption\n"
+        "hostname sw1\n"
+        "interface Ethernet0/0\n"
+        " duplex auto\n"
+        "interface Ethernet0/1\n"
+        " switchport trunk encapsulation dot1q\n"
+        " switchport trunk allowed vlan 100\n"
+        " switchport mode trunk\n"
+        " duplex auto\n"
+        " spanning-tree portfast edge trunk\n"
+        "interface Ethernet0/2\n"
+        " duplex auto\n"
+        "interface Ethernet0/3\n"
+        " switchport trunk encapsulation dot1q\n"
+        " switchport trunk allowed vlan 100\n"
+        " duplex auto\n"
+        " switchport mode trunk\n"
+        " spanning-tree portfast edge trunk\n"
+    )
+    config_part = re.search(
+        r"(Current configuration.*?)interface Ethernet1/0", out, re.DOTALL
+    ).group(1)
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout == config_part
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+#7.2a
+import sys
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def test_task(capsys, monkeypatch):
+    """
+    Проверка работы задания при вводе access
+    """
+    monkeypatch.setattr("sys.argv", ["task_7_2a.py", "config_sw1.txt"])
+    import task_7_2a
+
+    out, err = capsys.readouterr()
+    correct_stdout = (
+        "version 15.0\n"
+        "service timestamps debug datetime msec\n"
+        "service timestamps log datetime msec\n"
+        "no service password-encryption\n"
+        "hostname sw1\n"
+        "interface Ethernet0/0\n"
+        "interface Ethernet0/1\n"
+        " switchport trunk encapsulation dot1q\n"
+        " switchport trunk allowed vlan 100\n"
+        " switchport mode trunk\n"
+        " spanning-tree portfast edge trunk\n"
+        "interface Ethernet0/2\n"
+        "interface Ethernet0/3\n"
+        " switchport trunk encapsulation dot1q\n"
+        " switchport trunk allowed vlan 100\n"
+        " switchport mode trunk\n"
+        " spanning-tree portfast edge trunk\n"
+        "interface Ethernet1/0\n"
+        "interface Ethernet1/1\n"
+        "interface Ethernet1/2\n"
+        "interface Ethernet1/3\n"
+        "interface Vlan100\n"
+        " ip address 10.0.100.1 255.255.255.0\n"
+        "line con 0\n"
+        " exec-timeout 0 0\n"
+        " privilege level 15\n"
+        " logging synchronous\n"
+        "line aux 0\n"
+        "line vty 0 4\n"
+        " login\n"
+        " transport input all\n"
+        "end"
+    )
+
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert (
+        correct_stdout == out.strip()
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+#7.2b
+import sys
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def test_task(monkeypatch, tmpdir):
+    """
+    Проверка работы задания при вводе access
+    """
+    dest_filename = tmpdir.mkdir("test_tasks").join("task_7_2b.txt")
+
+    monkeypatch.setattr("sys.argv", ["task_7_2b.py", "config_sw1.txt", dest_filename])
+    import task_7_2b
+
+    dest_file_content = dest_filename.read().strip()
+
+    correct_file_content = (
+        "version 15.0\n"
+        "service timestamps debug datetime msec\n"
+        "service timestamps log datetime msec\n"
+        "no service password-encryption\n"
+        "hostname sw1\n"
+        "interface Ethernet0/0\n"
+        "interface Ethernet0/1\n"
+        " switchport trunk encapsulation dot1q\n"
+        " switchport trunk allowed vlan 100\n"
+        " switchport mode trunk\n"
+        " spanning-tree portfast edge trunk\n"
+        "interface Ethernet0/2\n"
+        "interface Ethernet0/3\n"
+        " switchport trunk encapsulation dot1q\n"
+        " switchport trunk allowed vlan 100\n"
+        " switchport mode trunk\n"
+        " spanning-tree portfast edge trunk\n"
+        "interface Ethernet1/0\n"
+        "interface Ethernet1/1\n"
+        "interface Ethernet1/2\n"
+        "interface Ethernet1/3\n"
+        "interface Vlan100\n"
+        " ip address 10.0.100.1 255.255.255.0\n"
+        "line con 0\n"
+        " exec-timeout 0 0\n"
+        " privilege level 15\n"
+        " logging synchronous\n"
+        "line aux 0\n"
+        "line vty 0 4\n"
+        " login\n"
+        " transport input all\n"
+        "end"
+    )
+
+    assert (
+        correct_file_content == dest_file_content
+    ), "На стандартный поток вывода выводится неправильный вывод"
+    
+#7.3
+import sys
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest, unified_columns_output
+
+check_pytest(__loader__, __file__)
+
+
+def test_task_stdout(capsys):
+    """
+    Проверка работы задания
+    """
+    import task_7_3
+
+    out, err = capsys.readouterr()
+    correct_stdout = unified_columns_output(
+        "100      01bb.c580.7000      Gi0/1\n"
+        "200      0a4b.c380.7c00      Gi0/2\n"
+        "300      a2ab.c5a0.700e      Gi0/3\n"
+        "10       0a1b.1c80.7000      Gi0/4\n"
+        "500      02b1.3c80.7b00      Gi0/5\n"
+        "200      1a4b.c580.7000      Gi0/6\n"
+        "300      0a1b.5c80.70f0      Gi0/7\n"
+        "10       01ab.c5d0.70d0      Gi0/8\n"
+        "1000     0a4b.c380.7d00      Gi0/9"
+    )
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == unified_columns_output(
+        out.strip()
+    ), "На стандартный поток вывода выводится неправильная строка"
+    
+#7.3a
+import sys
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest, unified_columns_output
+
+check_pytest(__loader__, __file__)
+
+
+def test_task_stdout(capsys):
+    """
+    Проверка работы задания
+    """
+    import task_7_3a
+
+    out, err = capsys.readouterr()
+    correct_stdout = unified_columns_output(
+        "10       01ab.c5d0.70d0      Gi0/8\n"
+        "10       0a1b.1c80.7000      Gi0/4\n"
+        "100      01bb.c580.7000      Gi0/1\n"
+        "200      0a4b.c380.7c00      Gi0/2\n"
+        "200      1a4b.c580.7000      Gi0/6\n"
+        "300      0a1b.5c80.70f0      Gi0/7\n"
+        "300      a2ab.c5a0.700e      Gi0/3\n"
+        "500      02b1.3c80.7b00      Gi0/5\n"
+        "1000     0a4b.c380.7d00      Gi0/9"
+    )
+    assert (
+        out
+    ), "Ничего не выведено на стандартный поток вывода. Надо не только получить нужный результат, но и вывести его на стандартный поток вывода с помощью print"
+    assert correct_stdout == unified_columns_output(
+        out.strip()
+    ), "На стандартный поток вывода выводится неправильная строка"
+    
+#7.3b
+import re
+import sys
+
+import pytest
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_pytest
+
+check_pytest(__loader__, __file__)
+
+
+def unified_columns_output(output):
+    lines = sorted(
+        [re.split(r"  +", line.strip()) for line in output.strip().split("\n")]
+    )
+    formatted = [("{:25}" * len(line)).format(*line) for line in lines]
+    return "\n".join(formatted)
+
+
+@pytest.mark.parametrize(
+    "vlan,result",
+    [
+        (
+            "10",
+            "10       0a1b.1c80.7000      Gi0/4\n10       01ab.c5d0.70d0      Gi0/8",
+        ),
+        (
+            "1000",
+            "1000     0a4b.c380.7d00      Gi0/9",
+        ),
+    ],
+    ids=["vlan 10", "vlan 1000"],
+)
+def test_task_stdout(capsys, monkeypatch, vlan, result):
+    """
+    Проверка работы задания
+    """
+    monkeypatch.setattr("builtins.input", lambda x=None: vlan)
+    if sys.modules.get("task_7_3b"):
+        del sys.modules["task_7_3b"]
+    import task_7_3b
+
+    out, err = capsys.readouterr()
+    correct_stdout = unified_columns_output(result)
+    assert correct_stdout == unified_columns_output(
+        out.strip()
+    ), "На стандартный поток вывода выводится неправильная строка"
