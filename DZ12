@@ -1,0 +1,155 @@
+#12.1
+import sys
+
+import pytest
+import task_12_1
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists, check_pytest,
+                                     get_reach_unreach)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_12_1, "ping_ip_addresses")
+
+
+@pytest.mark.skipif(
+    not hasattr(task_12_1, "ping_ip_addresses"),
+    reason="Этот тест работает только если создана функция ping_ip_addresses",
+)
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    list_of_ips = ["1.1.1.1", "8.8.8.8", "8.8.4.4", "8.8.7.1"]
+    correct_return_value = get_reach_unreach(list_of_ips)
+
+    return_value = task_12_1.ping_ip_addresses(list_of_ips)
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert type(return_value) == tuple and all(
+        type(item) == list for item in return_value
+    ), "Функция должна возвращать кортеж с двумя списками"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+    
+   #12.2
+   import sys
+
+import task_12_2
+
+sys.path.append("..")
+
+from pyneng_common_functions import check_function_exists, check_pytest
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_12_2, "convert_ranges_to_ip_list")
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    list_of_ips_and_ranges = ["8.8.4.4", "1.1.1.1-3", "172.21.41.128-172.21.41.132"]
+    correct_return_value = [
+        "8.8.4.4",
+        "1.1.1.1",
+        "1.1.1.2",
+        "1.1.1.3",
+        "172.21.41.128",
+        "172.21.41.129",
+        "172.21.41.130",
+        "172.21.41.131",
+        "172.21.41.132",
+    ]
+
+    return_value = task_12_2.convert_ranges_to_ip_list(list_of_ips_and_ranges)
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert type(return_value) == list, "Функция должна возвращать список"
+    assert sorted(correct_return_value) == sorted(
+        return_value
+    ), "Функция возвращает неправильное значение"
+
+
+def test_function_return_value_different_args():
+    """
+    Проверка работы функции на других адресах
+    """
+    list_of_ips_and_ranges = ["10.1.1.1", "10.4.10.10-13", "192.168.1.12-192.168.1.15"]
+    correct_return_value = [
+        "10.1.1.1",
+        "10.4.10.10",
+        "10.4.10.11",
+        "10.4.10.12",
+        "10.4.10.13",
+        "192.168.1.12",
+        "192.168.1.13",
+        "192.168.1.14",
+        "192.168.1.15",
+    ]
+
+    return_value = task_12_2.convert_ranges_to_ip_list(list_of_ips_and_ranges)
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == list
+    ), f"По заданию функция должна возвращать список, а возвращает {type(return_value).__name__}"
+    assert sorted(correct_return_value) == sorted(
+        return_value
+    ), "Функция возвращает неправильное значение"
+    
+    #12.3
+    import sys
+
+import task_12_3
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists, check_pytest,
+                                     unified_columns_output)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_12_3, "print_ip_table")
+
+
+def test_function_stdout(capsys):
+    """
+    Проверка работы задания
+    """
+    reach_ip = ["10.10.1.7", "10.10.1.8", "10.10.1.9", "10.10.1.15"]
+    unreach_ip = ["10.10.2.1", "10.10.1.2"]
+    return_value = task_12_3.print_ip_table(reach_ip, unreach_ip)
+
+    stdout, err = capsys.readouterr()
+    correct_stdout = unified_columns_output(
+        "Reachable    Unreachable\n"
+        "-----------  -------------\n"
+        "10.10.1.7    10.10.2.1\n"
+        "10.10.1.8    10.10.1.2\n"
+        "10.10.1.9\n"
+        "10.10.1.15\n"
+    )
+    assert None == return_value, "Функция должна возвращать None"
+    assert correct_stdout == unified_columns_output(
+        stdout
+    ), "Функция возвращает неправильное значение"
