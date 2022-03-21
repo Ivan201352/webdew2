@@ -1,0 +1,631 @@
+#9.1
+import sys
+
+import task_9_1
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_1, "generate_access_config")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_1.generate_access_config,
+        param_count=2,
+        param_names=["intf_vlan_mapping", "access_template"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    access_vlans_mapping = {
+        "FastEthernet0/12": 10,
+        "FastEthernet0/14": 11,
+        "FastEthernet0/16": 17,
+    }
+    template_access_mode = [
+        "switchport mode access",
+        "switchport access vlan",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+    ]
+    correct_return_value = [
+        "interface FastEthernet0/12",
+        "switchport mode access",
+        "switchport access vlan 10",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "interface FastEthernet0/14",
+        "switchport mode access",
+        "switchport access vlan 11",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "interface FastEthernet0/16",
+        "switchport mode access",
+        "switchport access vlan 17",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+    ]
+
+    return_value = task_9_1.generate_access_config(
+        access_vlans_mapping, template_access_mode
+    )
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == list
+    ), f"По заданию функция должна возвращать список, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+
+
+def test_function_return_value_different_args():
+    """
+    Проверка работы функции с другими аргументами
+    """
+    access_vlans_mapping = {
+        "FastEthernet0/1": 101,
+        "FastEthernet0/4": 121,
+    }
+    template_access_mode = [
+        "switchport mode access",
+        "switchport access vlan",
+    ]
+    correct_return_value = [
+        "interface FastEthernet0/1",
+        "switchport mode access",
+        "switchport access vlan 101",
+        "interface FastEthernet0/4",
+        "switchport mode access",
+        "switchport access vlan 121",
+    ]
+
+    return_value = task_9_1.generate_access_config(
+        access_vlans_mapping, template_access_mode
+    )
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == list
+    ), f"По заданию функция должна возвращать список, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+    
+    #9.1a
+    import sys
+
+import task_9_1a
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+#9.2
+
+   
+import sys
+
+import task_9_2
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_2, "generate_trunk_config")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_2.generate_trunk_config,
+        param_count=2,
+        param_names=["intf_vlan_mapping", "trunk_template"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    trunk_vlans_mapping = {
+        "FastEthernet0/1": [10, 20, 30],
+        "FastEthernet0/2": [11, 30],
+        "FastEthernet0/4": [17],
+    }
+    template_trunk_mode = [
+        "switchport mode trunk",
+        "switchport trunk native vlan 999",
+        "switchport trunk allowed vlan",
+    ]
+    correct_return_value = [
+        "interface FastEthernet0/1",
+        "switchport mode trunk",
+        "switchport trunk native vlan 999",
+        "switchport trunk allowed vlan 10,20,30",
+        "interface FastEthernet0/2",
+        "switchport mode trunk",
+        "switchport trunk native vlan 999",
+        "switchport trunk allowed vlan 11,30",
+        "interface FastEthernet0/4",
+        "switchport mode trunk",
+        "switchport trunk native vlan 999",
+        "switchport trunk allowed vlan 17",
+    ]
+
+    return_value = task_9_2.generate_trunk_config(
+        trunk_vlans_mapping, template_trunk_mode
+    )
+    assert return_value != None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == list
+    ), f"По заданию функция должна возвращать список, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+
+
+def test_function_return_value_different_args():
+    """
+    Проверка работы функции с другими аргументами
+    """
+    trunk_vlans_mapping = {
+        "FastEthernet0/11": [101, 120, 130],
+        "FastEthernet0/12": [101, 130],
+    }
+    template_trunk_mode = [
+        "switchport mode trunk",
+        "switchport trunk allowed vlan",
+    ]
+    correct_return_value = [
+        "interface FastEthernet0/11",
+        "switchport mode trunk",
+        "switchport trunk allowed vlan 101,120,130",
+        "interface FastEthernet0/12",
+        "switchport mode trunk",
+        "switchport trunk allowed vlan 101,130",
+    ]
+
+    return_value = task_9_2.generate_trunk_config(
+        trunk_vlans_mapping, template_trunk_mode
+    )
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == list
+    ), f"По заданию функция должна возвращать список, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_1a, "generate_access_config")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_1a.generate_access_config,
+        param_count=3,
+        param_names=["intf_vlan_mapping", "access_template", "psecurity"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    template_psecurity = [
+        "switchport port-security maximum 2",
+        "switchport port-security violation restrict",
+        "switchport port-security",
+    ]
+    access_vlans_mapping = {
+        "FastEthernet0/12": 10,
+        "FastEthernet0/14": 11,
+        "FastEthernet0/16": 17,
+    }
+    template_access_mode = [
+        "switchport mode access",
+        "switchport access vlan",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+    ]
+    correct_return_value_without_psecurity = [
+        "interface FastEthernet0/12",
+        "switchport mode access",
+        "switchport access vlan 10",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "interface FastEthernet0/14",
+        "switchport mode access",
+        "switchport access vlan 11",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "interface FastEthernet0/16",
+        "switchport mode access",
+        "switchport access vlan 17",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+    ]
+    correct_return_value_with_psecurity = [
+        "interface FastEthernet0/12",
+        "switchport mode access",
+        "switchport access vlan 10",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "switchport port-security maximum 2",
+        "switchport port-security violation restrict",
+        "switchport port-security",
+        "interface FastEthernet0/14",
+        "switchport mode access",
+        "switchport access vlan 11",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "switchport port-security maximum 2",
+        "switchport port-security violation restrict",
+        "switchport port-security",
+        "interface FastEthernet0/16",
+        "switchport mode access",
+        "switchport access vlan 17",
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable",
+        "switchport port-security maximum 2",
+        "switchport port-security violation restrict",
+        "switchport port-security",
+    ]
+
+    return_value = task_9_1a.generate_access_config(
+        access_vlans_mapping, template_access_mode
+    )
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == list
+    ), f"По заданию функция должна возвращать список, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value_without_psecurity == return_value
+    ), "Функция возвращает неправильное значение при вызове с psecurity == None"
+
+    return_value_with_psecurity = task_9_1a.generate_access_config(
+        access_vlans_mapping, template_access_mode, template_psecurity
+    )
+    assert (
+        correct_return_value_with_psecurity == return_value_with_psecurity
+    ), "Функция возвращает неправильное значение при вызове с psecurity"
+    
+    #9.2a
+    import sys
+
+import task_9_2a
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_2a, "generate_trunk_config")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_2a.generate_trunk_config,
+        param_count=2,
+        param_names=["intf_vlan_mapping", "trunk_template"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    trunk_vlans_mapping = {
+        "FastEthernet0/1": [10, 20, 30],
+        "FastEthernet0/2": [11, 30],
+        "FastEthernet0/4": [17],
+    }
+    template_trunk_mode = [
+        "switchport mode trunk",
+        "switchport trunk native vlan 999",
+        "switchport trunk allowed vlan",
+    ]
+    correct_return_value = {
+        "FastEthernet0/1": [
+            "switchport mode trunk",
+            "switchport trunk native vlan 999",
+            "switchport trunk allowed vlan 10,20,30",
+        ],
+        "FastEthernet0/2": [
+            "switchport mode trunk",
+            "switchport trunk native vlan 999",
+            "switchport trunk allowed vlan 11,30",
+        ],
+        "FastEthernet0/4": [
+            "switchport mode trunk",
+            "switchport trunk native vlan 999",
+            "switchport trunk allowed vlan 17",
+        ],
+    }
+
+    return_value = task_9_2a.generate_trunk_config(
+        trunk_vlans_mapping, template_trunk_mode
+    )
+    assert return_value is not None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == dict
+    ), f"По заданию функция должна возвращать словарь, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+
+#9.3
+import sys
+
+import task_9_3
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_3, "get_int_vlan_map")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_3.get_int_vlan_map,
+        param_count=1,
+        param_names=["config_filename"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    correct_return_value = (
+        {
+            "FastEthernet0/0": 10,
+            "FastEthernet0/2": 20,
+            "FastEthernet1/0": 20,
+            "FastEthernet1/1": 30,
+        },
+        {
+            "FastEthernet0/1": [100, 200],
+            "FastEthernet0/3": [100, 300, 400, 500, 600],
+            "FastEthernet1/2": [400, 500, 600],
+        },
+    )
+
+    return_value = task_9_3.get_int_vlan_map("config_sw1.txt")
+    assert return_value != None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == tuple
+    ), f"По заданию функция должна возвращать кортеж, а возвращает {type(return_value).__name__}"
+    assert len(return_value) == 2 and all(
+        type(item) == dict for item in return_value
+    ), "Функция должна возвращать кортеж с двумя словарями"
+
+    access, trunk = return_value
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+
+#9.3a
+import sys
+
+import task_9_3a
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_3a, "get_int_vlan_map")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_3a.get_int_vlan_map,
+        param_count=1,
+        param_names=["config_filename"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    correct_return_value = (
+        {
+            "FastEthernet0/0": 10,
+            "FastEthernet0/2": 20,
+            "FastEthernet1/0": 20,
+            "FastEthernet1/1": 30,
+            "FastEthernet1/3": 1,
+            "FastEthernet2/0": 1,
+            "FastEthernet2/1": 1,
+        },
+        {
+            "FastEthernet0/1": [100, 200],
+            "FastEthernet0/3": [100, 300, 400, 500, 600],
+            "FastEthernet1/2": [400, 500, 600],
+        },
+    )
+
+    return_value = task_9_3a.get_int_vlan_map("config_sw2.txt")
+    assert return_value != None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == tuple
+    ), f"По заданию функция должна возвращать кортеж, а возвращает {type(return_value).__name__}"
+    assert len(return_value) == 2 and all(
+        type(item) == dict for item in return_value
+    ), "Функция должна возвращать кортеж с двумя словарями"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
+
+#9.4
+import sys
+
+import task_9_4
+
+sys.path.append("..")
+
+from pyneng_common_functions import (check_function_exists,
+                                     check_function_params, check_pytest)
+
+
+check_pytest(__loader__, __file__)
+
+
+def test_function_created():
+    """
+    Проверка, что функция создана
+    """
+    check_function_exists(task_9_4, "convert_config_to_dict")
+
+
+def test_function_params():
+    """
+    Проверка имен и количества параметров
+    """
+    check_function_params(
+        function=task_9_4.convert_config_to_dict,
+        param_count=1,
+        param_names=["config_filename"],
+    )
+
+
+def test_function_return_value():
+    """
+    Проверка работы функции
+    """
+    correct_return_value = {
+        "version 15.0": [],
+        "service timestamps debug datetime msec": [],
+        "service timestamps log datetime msec": [],
+        "no service password-encryption": [],
+        "hostname sw1": [],
+        "interface FastEthernet0/0": [
+            "switchport mode access",
+            "switchport access vlan 10",
+        ],
+        "interface FastEthernet0/1": [
+            "switchport trunk encapsulation dot1q",
+            "switchport trunk allowed vlan 100,200",
+            "switchport mode trunk",
+        ],
+        "interface FastEthernet0/2": [
+            "switchport mode access",
+            "switchport access vlan 20",
+        ],
+        "interface FastEthernet0/3": [
+            "switchport trunk encapsulation dot1q",
+            "switchport trunk allowed vlan 100,300,400,500,600",
+            "switchport mode trunk",
+        ],
+        "interface FastEthernet1/0": [
+            "switchport mode access",
+            "switchport access vlan 20",
+        ],
+        "interface FastEthernet1/1": [
+            "switchport mode access",
+            "switchport access vlan 30",
+        ],
+        "interface FastEthernet1/2": [
+            "switchport trunk encapsulation dot1q",
+            "switchport trunk allowed vlan 400,500,600",
+            "switchport mode trunk",
+        ],
+        "interface FastEthernet1/3": [],
+        "interface Vlan100": ["ip address 10.0.100.1 255.255.255.0"],
+        "line con 0": ["exec-timeout 0 0", "privilege level 15", "logging synchronous"],
+        "line aux 0": [],
+        "line vty 0 4": ["login", "transport input all"],
+        "end": [],
+    }
+
+    return_value = task_9_4.convert_config_to_dict("config_sw1.txt")
+    assert return_value != None, "Функция ничего не возвращает"
+    assert (
+        type(return_value) == dict
+    ), f"По заданию функция должна возвращать словарь, а возвращает {type(return_value).__name__}"
+    assert (
+        correct_return_value == return_value
+    ), "Функция возвращает неправильное значение"
